@@ -1,6 +1,6 @@
 {
   "name": "eslint-import-alias",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ESLint rule for restricting imports to path aliases",
   "main": "lib/index.js",
   "repository": "https://github.com/steelsojka/eslint-import-alias",
