@@ -10,6 +10,7 @@ export const meta = {
   schema: [ {
     type: 'object',
     properties: {
+      rootDir: { type: 'string' },
       relativeDepth: { type: 'number' },
       aliases: {
         type: 'array',
@@ -42,7 +43,8 @@ function getDepthCount(matchedPath) {
 export function create(context) {
   const {
     relativeDepth = -1,
-    aliases:_aliases = []
+    aliases:_aliases = [],
+    rootDir = CWD
   } = context.options[0] || {};
 
   const aliases = _aliases.map(item => {
@@ -68,7 +70,7 @@ export function create(context) {
               : `import statement must be an alias or no more than ${relativeDepth} levels deep`,
             fix(fixer) {
               const parsedPath = path.parse(context.getFilename());
-              const importPath = path.relative(CWD, path.resolve(parsedPath.dir, importValue));
+              const importPath = path.relative(rootDir, path.resolve(parsedPath.dir, importValue));
 
               for (const item of aliases) {
                 const match = importPath.match(item.matcher);
