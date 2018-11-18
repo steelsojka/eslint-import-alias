@@ -11,7 +11,9 @@
   },
   "scripts": {
     "test": "babel-node test",
-    "build": "babel src --out-dir ./ "
+    "clean": "rm -rf lib",
+    "build": "babel src --out-dir ./ ",
+    "prebuild": "npm run clean"
   },
   "author": "Steven Sojka",
   "license": "MIT",
