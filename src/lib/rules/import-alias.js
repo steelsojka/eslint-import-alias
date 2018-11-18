@@ -36,7 +36,9 @@ export function create(context) {
         if (depth > relativeDepth) {
           context.report({
             node,
-            message: `import statement must be an alias or no more than ${relativeDepth} levels deep`
+            message: relativeDepth === -1
+              ? 'Import path mush be a path alias'
+              : `import statement must be an alias or no more than ${relativeDepth} levels deep`
           });
         }
       }
