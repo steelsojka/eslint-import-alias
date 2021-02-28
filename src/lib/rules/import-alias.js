@@ -40,6 +40,17 @@ function getDepthCount(matchedPath) {
   return matchedPath.split('/').reduce((depth, segment) => segment === '..' ? depth + 1 : depth, 0);
 }
 
+/**
+ * @param {string} win32OrPosixPath 
+ */
+function normalizeToPosixPath(win32OrPosixPath) {
+  if (path.sep === '/') {
+    // Paths are already posix-style paths, no need to fix
+    return win32OrPosixPath;
+  }
+  return win32OrPosixPath.split(path.sep).join('/');
+}
+
 export function create(context) {
   const {
     relativeDepth = -1,
@@ -78,9 +89,11 @@ export function create(context) {
                 if (match) {
                   const matchingString = match[match.length - 1];
                   const index = match[0].indexOf(matchingString);
-                  const result = importPath.slice(0, index)
+                  const result = normalizeToPosixPath(
+                    importPath.slice(0, index)
                     + item.alias
-                    + importPath.slice(index + matchingString.length);
+                    + importPath.slice(index + matchingString.length)
+                  );
 
                   return fixer.replaceTextRange([ node.source.range[0] + 1, node.source.range[1] - 1 ], result);
                 }
